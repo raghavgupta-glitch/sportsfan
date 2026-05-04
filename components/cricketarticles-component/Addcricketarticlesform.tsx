@@ -419,6 +419,7 @@
 "use client";
 
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Plus, Trash2, GripVertical } from "lucide-react";
@@ -456,12 +457,6 @@ export default function CricketArticleForm({
     const [existingImage, setExistingImage] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const predefinedTags = [
-        { value: "IPL", label: "IPL" },
-        { value: "T20", label: "T20" },
-        { value: "Match Report", label: "Match Report" },
-        { value: "Player Transfer", label: "Player Transfer" },
-    ];
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -531,11 +526,6 @@ export default function CricketArticleForm({
     ) => {
         setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-
-    const handleTagChange = (newValue: any) => {
-    const tagsArray = newValue ? newValue.map((option: any) => option.value) : [];
-    setForm((prev) => ({ ...prev, tags: tagsArray }));
-};
 
     /*  DESCRIPTION PARAGRAPH HANDLERS  */
     const handleDescriptionChange = (index: number, value: string) => {
@@ -838,10 +828,12 @@ export default function CricketArticleForm({
                         className="w-full bg-[#0d1117] border border-gray-700 rounded px-3 py-2 text-white file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600"
                     />
                     {preview && (
-                        <img
+                        <Image
                             src={preview}
                             alt="preview"
-                            className="w-32 h-32 object-cover rounded mt-3 border border-gray-700"
+                            width={128}
+                            height={128}
+                            className="object-cover rounded mt-3 border border-gray-700"
                         />
                     )}
                 </div>
@@ -874,68 +866,6 @@ export default function CricketArticleForm({
         </div>
     );
 }
-
-const tagStyles = {
-  control: (base: any, state: any) => ({
-    ...base,
-    backgroundColor: '#0d1117',
-    borderColor: '#374151', // border-gray-700
-    borderRadius: '0.25rem', // rounded
-    boxShadow: 'none',
-    minHeight: '42px', // Forces exact height of your tailwind inputs
-    outline: state.isFocused ? '1px solid #3b82f6' : 'none', // focus:border-blue-500
-    '&:hover': {
-      borderColor: state.isFocused ? '#3b82f6' : '#4b5563',
-    },
-  }),
-  valueContainer: (base: any) => ({
-    ...base,
-    padding: '0 0.75rem', // Exact match for tailwind px-3
-  }),
-  input: (base: any) => ({ 
-    ...base, 
-    color: 'white',
-    margin: '0px', 
-    padding: '0px' 
-  }),
-  placeholder: (base: any) => ({
-    ...base,
-    color: '#6b7280', // Exact match for placeholder:text-gray-500
-    margin: '0px',
-  }),
-  dropdownIndicator: (base: any) => ({
-    ...base,
-    padding: '0 0.75rem', // Keeps the arrow padded nicely
-    color: '#9ca3af',
-    '&:hover': { color: 'white' }
-  }),
-  multiValue: (base: any) => ({
-    ...base,
-    backgroundColor: 'rgba(59, 130, 246, 0.15)',
-    borderRadius: '4px',
-  }),
-  multiValueLabel: (base: any) => ({
-    ...base,
-    color: '#3b82f6',
-  }),
-  multiValueRemove: (base: any) => ({
-    ...base,
-    color: '#3b82f6',
-    ':hover': { backgroundColor: '#3b82f6', color: 'white' },
-  }),
-  menu: (base: any) => ({ 
-    ...base, 
-    backgroundColor: '#161b22', 
-    border: '1px solid #374151'
-  }),
-  option: (base: any, state: any) => ({
-    ...base,
-    backgroundColor: state.isFocused ? '#1f2937' : 'transparent',
-    color: 'white',
-    cursor: 'pointer',
-    '&:active': { backgroundColor: '#3b82f6' }
-  }),
-};
 
 function Input({
     label,
